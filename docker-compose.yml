@@ -1,0 +1,90 @@
+version: '3.9'
+services:  
+  database:
+    # https://docs.microsoft.com/en-us/azure/cosmos-db/linux-emulator
+    # Once running, the CosmosDB emulator can be accessed using a browser on the host at
+    # https://localhost:1241/_explorer/index.html
+    container_name: cosmosdb
+    # hostname: "cosmosdb"
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator  
+    tty: true
+    cpus: 2.0
+    mem_limit: 3g
+    deploy:
+      restart_policy:
+        condition: on-failure
+    restart: always
+    depends_on:
+      - cache
+      - cache_ui
+    environment:
+       # Env variables mostly derived from https://docs.microsoft.com/en-us/azure/cosmos-db/emulator-command-line-parameters
+       # and from https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator?tabs=ssl-netstd21
+       # Comment in/out CosmosDB features as needed:
+       - AZURE_COSMOS_EMULATOR_PARTITION_COUNT=10
+       - AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE=true
+       - AZURE_COSMOS_EMULATOR_GREMLIN_ENDPOINT=true
+       - AZURE_COSMOS_EMULATOR_IP_ADDRESS_OVERRIDE=<YOUR-LOCAL-IP>
+       # - AZURE_COSMOS_EMULATOR_CASSANDRA_ENDPOINT=true
+       # - AZURE_COSMOS_EMULATOR_MONGODB_ENDPOINT=true
+       # - AZURE_COSMOS_EMULATOR_ENABLE_TABLE_ENDPOINT=true
+    ports:
+       # Ports mostly derived from https://docs.microsoft.com/en-us/azure/cosmos-db/emulator-command-line-parameters       
+       - "8081:8081"    # Default emulator port
+       - "8900:8900"
+       - "8901:8901"    # Gremlin port
+       - "8979:8979"
+       - "10250:10250"  # CosmosDB direct port
+       - "10251:10251"  # CosmosDB direct port
+       - "10252:10252"  # CosmosDB direct port
+       - "10253:10253"  # CosmosDB direct port
+       - "10254:10254"  # CosmosDB direct port
+       - "10255:10255"  # MongoDB direct port
+       - "10256:10256"
+       - "10350:10350"  # Cassandra direct port
+    volumes:
+       - vol_cosmos:/data/db    
+    networks:
+       - db_network
+       
+  cache:
+    container_name: rediscache
+    image: redis:latest
+    deploy:
+      restart_policy:
+        condition: on-failure
+    restart: always
+    ports:
+      - "6379:6379"
+    #command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    command: redis-server --save 20 1 --loglevel warning
+    volumes: 
+      - vol_cache:/data
+    networks:
+      - cache_network
+  
+  cache_ui:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    deploy:
+      restart_policy:
+        condition: on-failure
+    restart: always
+    depends_on:
+      - cache      
+    environment:
+      - REDIS_HOSTS=local:cache:6379
+      #- REDIS_PASSWORD=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    ports:
+      - "8082:8081"
+    networks:
+      - cache_network
+
+volumes: 
+  vol_cosmos:
+  vol_cache:
+  
+networks:
+  cache_network: null
+  db_network: null

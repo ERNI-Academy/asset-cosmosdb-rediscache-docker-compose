@@ -36,7 +36,6 @@ Run the following command:
 ipaddr="`ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}' | head -n 1`"
 ```
 
-
 Copy your local Ip and replace the **\<YOUR-LOCAL-IP\>** at the **docker-compose.yml** with it.
 
 Then run the following command to start the infrastructure:
@@ -57,6 +56,7 @@ You can see that the cosmos emulator UI website is not secured, run the followin
 ```sh
 .\ImportCosmosDbCertificate.ps1
 ```
+
 ### **Linux developers**
 
 1. Get the local IP
@@ -113,6 +113,7 @@ The remote certificate is invalid because of errors in the certificate chain: Un
 To resolve this issue, make sure you properly has installed the certificate into the Trusted Root store.
 
 You can also disable SSL validation:
+
 ```csharp
 CosmosClientOptions cosmosClientOptions = new CosmosClientOptions()
 {
@@ -148,7 +149,8 @@ TLS verification can be disabled by setting the environment variable NODE_TLS_RE
 NODE_TLS_REJECT_UNAUTHORIZED=0
 ```
 
-## Possible issues:
+## Possible issues
+
 **Redis Docker**
 
 ```sh
@@ -167,7 +169,9 @@ Please see our [Contribution Guide](CONTRIBUTING.md) to learn how to contribute.
 
 ## License
 
-[MIT](LICENSE) © 2022 [ERNI - Swiss Software Engineering](https://www.betterask.erni)
+![MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+
+(LICENSE) © 2022 [ERNI - Swiss Software Engineering](https://www.betterask.erni)
 
 ## Code of conduct
 
@@ -175,10 +179,17 @@ Please see our [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ## Stats
 
-<img src=https://repobeats.axiom.co/api/embed/8626c4db83ca6b129f2fa5df00c11736a89dcafa.svg>
+![https://repobeats.axiom.co/api/embed/8626c4db83ca6b129f2fa5df00c11736a89dcafa.svg](https://repobeats.axiom.co/api/embed/8626c4db83ca6b129f2fa5df00c11736a89dcafa.svg)
 
+## Follow us
 
-**Contact:** 
+[![Twitter Follow](https://img.shields.io/twitter/follow/ERNI?style=social)](https://www.twitter.com/ERNI)
+[![Twitch Status](https://img.shields.io/twitch/status/erni_academy?label=Twitch%20Erni%20Academy&style=social)](https://www.twitch.tv/erni_academy)
+[![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCkdDcxjml85-Ydn7Dc577WQ?label=Youtube%20Erni%20Academy&style=social)](https://www.youtube.com/channel/UCkdDcxjml85-Ydn7Dc577WQ)
+[![Linkedin](https://img.shields.io/badge/linkedin-31k-green?style=social&logo=Linkedin)](https://www.linkedin.com/company/erni)
+
+## Contact
+
 Erni_Services  - [@ERNI](https://twitter.com/ERNI) - esp-services@betterask.erni
 
 ## Contributors ✨

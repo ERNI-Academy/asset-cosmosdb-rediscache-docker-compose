@@ -20,6 +20,15 @@ This is an asset that helps developers to run the Azure infrastructure locally.
 
 Before run the infrastructure you need to get your local IP
 
+## Prerequisites
+
+To run and play with the boilerplates you need to install the following ide:
+
+- [Git](https://git-scm.com/downloads) => 2.35.1
+- [Docker](https://docs.docker.com/get-docker/) => 2.35.1
+- [docker-compose](https://docs.docker.com/compose/install/) => 1.29.2
+- [Visual Studio 2022](https://visualstudio.microsoft.com/es/downloads/) => 117.2 (just for Windows)
+
 ### **Windows developers**
 
 Run the following command:
